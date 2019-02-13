@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogWIn</class>
+ <widget class="QDialog" name="DialogWIn">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>435</width>
+    <height>136</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="Close">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>107</y>
+     <width>441</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>10</y>
+     <width>361</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Scoreboard">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>77</y>
+     <width>441</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Scoreboard</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="winnertext">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>40</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="submitwinner">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>40</y>
+     <width>91</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Submit score</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Winner add name:</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>Close</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogWIn</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>75</x>
+     <y>122</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>71</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Scoreboard</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogWIn</receiver>
+   <slot>openScoreboard()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>75</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>71</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>submitwinner</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogWIn</receiver>
+   <slot>submitWinner()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>365</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>openScoreboard()</slot>
+  <slot>submitWinner()</slot>
+ </slots>
+</ui>

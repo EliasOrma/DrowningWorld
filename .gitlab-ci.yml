@@ -1,0 +1,115 @@
+# GitLab CI-configuration IslandGame
+
+# The course staff will update this file, but you can also add your own unit tests here.
+
+image: pervasivetut/alpine_qt_5.9.6:latest
+
+variables:
+  SONAR_PROJECT_KEY: ohj3-2018-2019-$CI_PROJECT_NAME
+stages:
+  - build
+  - test
+  - analysis
+
+# Build all tests
+BuildUnitTests:
+  stage: build
+  tags:
+    - qt
+  script:
+    - cd Tests/UnitTests
+    - qmake UnitTests.pro
+    - make
+    - make clean
+  artifacts:
+    paths:
+      - "Tests/UnitTests/*/bin/*"
+      - "Tests/UnitTests/*/*.gcno"
+    expire_in: 2d
+
+#
+GameBoard:
+  stage: test
+  tags:
+    - qt
+  before_script:
+    - mkdir -p coverage/UnitTests
+  script: 
+    - cd Tests/UnitTests/GameBoard/
+    - ./bin/tst_gameboardtest
+    - gcov *.gcno -r
+    #- cp gameboard.*.gcov ../../../coverage/UnitTests
+  artifacts:
+    paths:
+      - "Tests/UnitTests/*/gameboard.*.gcov"
+    expire_in: 2d
+  dependencies: 
+    - BuildUnitTests
+
+#
+gamestatetest:
+  stage: test
+  tags:
+    - qt
+  before_script:
+    - mkdir -p coverage/UnitTests
+  script: 
+    - cd Tests/UnitTests/gamestatetest/
+    - ./bin/tst_gamestatetesttest
+    - gcov *.gcno -r
+    #- cp gameboard.*.gcov ../../../coverage/UnitTests
+  artifacts:
+    paths:
+      - "Tests/UnitTests/*/gamestate.*.gcov"
+    expire_in: 2d
+  dependencies: 
+    - BuildUnitTests
+
+# Compile and prepare the source code for analysis.
+# The output is stored in directory bw_output
+PrepareAnalysis:
+  image: pervasivetut/sonar-qt-analyzer
+  stage: build
+  tags:
+    - qt
+  script:
+    - qmake
+    - build-wrapper-linux-x86-64 --out-dir bw_output make clean all
+    - make clean
+  when: always
+  artifacts: 
+    paths:
+      - bw_output
+    expire_in: 2d
+
+# Performs the normal analysis and sends results to SonarQube
+PerformAnalysis:
+  image: pervasivetut/sonar-qt-analyzer
+  stage: analysis
+  tags:
+    - analysis
+  script:
+    - sonar-scanner -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME -Dsonar.gitlab.project_id=$CI_PROJECT_ID
+  when: always
+  only:
+    refs:
+    - master
+  dependencies:
+    - PrepareAnalysis
+    - GameBoard
+
+# Performs the normal analysis and sends results to SonarQube
+PerformBranchAnalysis:
+  image: pervasivetut/sonar-qt-analyzer
+  stage: analysis
+  tags:
+    - analysis
+  script:
+    - sonar-scanner -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME -Dsonar.gitlab.project_id=$CI_PROJECT_ID
+  when: always
+  except:
+    refs:
+    - master
+  dependencies:
+    - PrepareAnalysis
+    - GameBoard

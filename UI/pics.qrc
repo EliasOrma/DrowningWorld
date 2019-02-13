@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/pics">
+        <file>hai.png</file>
+        <file>delfiini.png</file>
+        <file>kraken.png</file>
+        <file>merihirvio.png</file>
+        <file>vene.png</file>
+        <file>vortex.png</file>
+        <file>kiekkoAnimal.png</file>
+        <file>kiekkoMoves.png</file>
+        <file>pointer.png</file>
+    </qresource>
+</RCC>
