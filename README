@@ -1,6 +1,0 @@
-Everything exept GameLogic-folder is made by me and other student, you can read about the work split from documentation.
-
-To get game working:
-Copy the asset file examples in Assets folder to correct names.
-For example
-cp Assets/pieces.json_example Assets/pieces.json
