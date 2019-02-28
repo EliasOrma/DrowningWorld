@@ -7,6 +7,7 @@ IslandgameDocumentation.pdf
 Everything exept GameLogic-folder is made by me and other student, you can read about the work split from documentation.
 
 # What i learned
+- Creating backend in C++
 - Creating, using and managing Qt frontend
 - Qt signals and slots
 - Typecasting in C++ (Especisially with different objects)
